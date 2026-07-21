@@ -5,10 +5,13 @@
 지침만 추가로 주입한다.
 """
 
+import json
 from functools import lru_cache
+from pathlib import Path
 
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from app.config import settings
@@ -59,6 +62,41 @@ _LEVEL_INSTRUCTIONS: dict[ExplanationLevel, str] = {
 }
 
 
+_FEWSHOT_COUNT = 3
+
+
+@lru_cache(maxsize=1)
+def _load_fewshot() -> list[dict]:
+    path = Path(settings.fewshot_path)
+    if not path.is_file():
+        return []
+    with path.open(encoding="utf-8") as file:
+        data = json.load(file)
+    return [item for item in data if item.get("question") and item.get("answer")]
+
+
+def _select_examples(mode: StudyMode, level: ExplanationLevel) -> list[BaseMessage]:
+    """현재 설명 수준·모드에 맞는 few-shot 예시를 골라 대화 메시지로 만든다."""
+    data = _load_fewshot()
+    if not data:
+        return []
+
+    target_level = "middle" if level == "low" else "high"
+    target_type = "code" if mode == "코드 해설" else "concept"
+
+    def priority(item: dict) -> tuple[bool, bool]:
+        return (item.get("level") == target_level, item.get("type") == target_type)
+
+    ranked = sorted(data, key=priority, reverse=True)
+    selected = ranked[:_FEWSHOT_COUNT]
+
+    messages: list[BaseMessage] = []
+    for item in selected:
+        messages.append(HumanMessage(content=item["question"]))
+        messages.append(AIMessage(content=item["answer"]))
+    return messages
+
+
 def _format_context(chunks: list[RetrievedChunk]) -> str:
     blocks = []
 
@@ -84,6 +122,7 @@ def _get_chain():
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", _SYSTEM_PROMPT),
+            MessagesPlaceholder("fewshot_examples"),
             ("human", _HUMAN_PROMPT),
         ]
     )
@@ -106,6 +145,7 @@ def generate_answer(
             "context_text": _format_context(chunks),
             "mode_instruction": _MODE_INSTRUCTIONS[mode],
             "level_instruction": _LEVEL_INSTRUCTIONS[level],
+            "fewshot_examples": _select_examples(mode, level),
         }
     )
 

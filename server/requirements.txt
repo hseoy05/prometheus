@@ -1,0 +1,12 @@
+fastapi>=0.115
+uvicorn[standard]>=0.32
+pydantic>=2.9
+python-dotenv>=1.0
+
+# RAG 파이프라인 (기초스터디프로젝트_v2.ipynb와 동일 스택)
+langchain-core>=0.3
+langchain-chroma>=0.1
+langchain-huggingface>=0.1
+langchain-google-genai>=2.0
+sentence-transformers>=3.0
+chromadb>=0.5

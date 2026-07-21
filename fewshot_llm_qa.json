@@ -1,0 +1,362 @@
+[
+  {
+    "id": "middle-1",
+    "level": "middle",
+    "question": "LLM에서 다음에 올 단어는 어떻게 예측하는거야?",
+    "answer": "보통 지금까지 나온 문장을 보고 다음에 올 확률이 가장 높은 단어를 골라요. GPT 같은 모델은 트랜스포머 구조의 셀프 어텐션과 확률분포를 활용해 단어를 예측합니다.",
+    "type": "concept",
+    "question_length_chars": 27,
+    "answer_length_chars": 92
+  },
+  {
+    "id": "middle-2",
+    "level": "middle",
+    "question": "트랜스포머에서 셀프 어텐션이 중요하다고 하는데 그 이유가 뭐야?",
+    "answer": "셀프 어텐션이란 문장 속 각 단어를 query, key, value 벡터로 바꾼 뒤 query와 key의 유사도로 관련성을 계산해서 value를 가중합하는 구조예요. 순서대로 처리하는 RNN과 달리 문장 전체를 한 번에 보고 멀리 떨어진 단어끼리도 직접 연결할 수 있어서, 은행 같은 단어도 앞뒤 문맥의 가중치에 따라 금융기관인지 강가인지 구분해서 처리해요.",
+    "type": "concept",
+    "question_length_chars": 35,
+    "answer_length_chars": 200
+  },
+  {
+    "id": "middle-3",
+    "level": "middle",
+    "question": "토큰화는 왜 서브워드 단위로 하는 거야?",
+    "answer": "서브워드 단위가 아닌, 단어 전체를 통째로 다루는 방법을 사용하면 사전에 없는 신조어를 처리 못 해요. 그러나 BPE 같은 서브워드 토큰화는 단어를 작은 조각으로 쪼개서 새로운 단어도 조합해 표현할 수 있어요. 그래서 토큰화는 서브워드 단위로 진행해요.",
+    "type": "concept",
+    "question_length_chars": 18,
+    "answer_length_chars": 92
+  },
+  {
+    "id": "middle-4",
+    "level": "middle",
+    "question": "Instruct 모델은 사전학습 모델과 뭐가 달라?",
+    "answer": "GPT처럼 다음 단어를 잘 맞히도록 학습한 사전학습 모델과 달리, EXAONE-Instruct 같은 모델은 질문-답변 쌍으로 추가 학습해서 지시를 따르도록 만든 모델이라는 점에서 차이가 있어요.",
+    "type": "concept",
+    "question_length_chars": 28,
+    "answer_length_chars": 96
+  },
+  {
+    "id": "middle-5",
+    "level": "middle",
+    "question": "LLM에 같은 프롬프트를 넣어도 왜 답이 매번 달라질까?",
+    "answer": "모델이 확률분포에서 단어를 뽑는 샘플링 방식을 쓰기 때문이에요. temperature나 top_p 값을 조절하는 순간부터 매번 다른 토큰이 선택될 여지가 생겨요.",
+    "type": "concept",
+    "question_length_chars": 22,
+    "answer_length_chars": 90
+  },
+  {
+    "id": "middle-6",
+    "level": "middle",
+    "question": "아래 코드로 실행했더니 같은 문장만 계속 반복되네. 왜 이런 거야?\noutput = pipe(messages, max_new_tokens=200, return_full_text=False, do_sample=True, temperature=0.001)\n",
+    "answer": "temperature를 0.001처럼 극단적으로 낮게 두면 do_sample=True라도 사실상 greedy decoding과 같아져서, 매 스텝 확률이 가장 높은 토큰만 반복해서 골라요. 특정 문구의 확률이 유독 높게 학습돼 있으면 그 표현만 계속 뽑히는 거고, repetition penalty 없이는 피하기 어려워요.",
+    "type": "code",
+    "question_length_chars": 174,
+    "answer_length_chars": 180
+  },
+  {
+    "id": "middle-7",
+    "level": "middle",
+    "question": "자연어 처리 모델에서 문장의 다양성을 조절하려면 어떻게 해야해?",
+    "answer": "softmax로 만든 확률분포의 뾰족한 정도를 temperature로 바꾸고, top_k나 top_p로 후보 폭을 넓히거나 좁혀서 다양성을 조절해야 해요. temperature를 낮추면 확률이 높은 토큰에 더 쏠려 안정적인 문장이 나오고, 높이면 여러 토큰의 확률이 비슷해져서 더 예측하기 어려운 문장이 나오기 때문이에요.",
+    "type": "concept",
+    "question_length_chars": 21,
+    "answer_length_chars": 180
+  },
+  {
+    "id": "middle-8",
+    "level": "middle",
+    "question": "모델 파라미터 수가 늘면 왜 성능이 좋아져?",
+    "answer": "파라미터가 많을수록 어텐션 층과 은닉 표현이 더 복잡한 패턴을 담을 수 있어서, EXAONE-2.4B보다 큰 모델일수록 문맥을 더 정교하게 이해해요.",
+    "type": "concept",
+    "question_length_chars": 24,
+    "answer_length_chars": 83
+  },
+  {
+    "id": "middle-9",
+    "level": "middle",
+    "question": "로지스틱 회귀는 왜 예측값에 시그모이드를 씌워?",
+    "answer": "선형회귀의 출력은 범위가 무한대라 확률로 해석할 수 없어서, 시그모이드 함수로 그 값을 0과 1 사이로 눌러 줘야 특정 클래스에 속할 확률로 쓸 수 있어요. 그래서 로지스틱 회귀는 선형결합 뒤에 시그모이드를 반드시 붙여요.",
+    "type": "concept",
+    "question_length_chars": 26,
+    "answer_length_chars": 124
+  },
+  {
+    "id": "middle-10",
+    "level": "middle",
+    "question": "KNN에서 K를 너무 크게 잡으면 왜 안 좋아?",
+    "answer": "K를 크게 잡을수록 먼 거리의 데이터까지 이웃으로 포함돼서 결정 경계가 지나치게 뭉뚱그려지는 과소적합이 일어나요. 반대로 K가 너무 작으면 노이즈 하나에도 민감하게 반응해서 과적합이 생겨요.",
+    "type": "concept",
+    "question_length_chars": 26,
+    "answer_length_chars": 106
+  },
+  {
+    "id": "middle-11",
+    "level": "middle",
+    "question": "SVM은 왜 마진을 최대화하는 방향으로 학습해?",
+    "answer": "마진이 클수록 결정 경계가 두 클래스로부터 최대한 멀리 떨어져 있다는 뜻이라서, 학습 데이터에 없던 새로운 데이터가 들어와도 잘못 분류될 여지가 줄어들어요. 그래서 SVM은 단순히 오차를 줄이는 것보다 마진을 최대화하는 걸 우선 목표로 삼아요.",
+    "type": "concept",
+    "question_length_chars": 26,
+    "answer_length_chars": 136
+  },
+  {
+    "id": "middle-12",
+    "level": "middle",
+    "question": "결정 트리는 왜 가지치기를 해줘야 해?",
+    "answer": "가지치기 없이 트리를 끝까지 키우면 훈련 데이터의 노이즈까지 전부 외워버려서 과적합이 심해져요. 트리 깊이나 리프 노드의 최소 샘플 수를 제한하는 가지치기를 하면 일반화 성능이 좋아져요.",
+    "type": "concept",
+    "question_length_chars": 21,
+    "answer_length_chars": 104
+  },
+  {
+    "id": "middle-13",
+    "level": "middle",
+    "question": "랜덤 포레스트는 왜 단일 결정 트리보다 안정적이야?",
+    "answer": "랜덤 포레스트는 데이터와 특성을 각각 무작위로 샘플링해 만든 여러 결정 트리를 앙상블로 묶은 구조예요. 트리마다 다른 방향으로 과적합돼도 다수결이나 평균으로 결과를 합치면 개별 트리의 오차가 서로 상쇄돼서 전체 분산이 줄어들어요.",
+    "type": "concept",
+    "question_length_chars": 28,
+    "answer_length_chars": 128
+  },
+  {
+    "id": "middle-14",
+    "level": "middle",
+    "question": "부스팅 계열 모델은 왜 트리를 순차적으로 학습시켜?",
+    "answer": "배깅과 달리 부스팅은 이전 트리가 틀린 샘플에 가중치를 더 주면서 다음 트리를 학습시키는 방식이라, 트리들을 동시에 만들 수 없고 반드시 이전 결과를 참고해 순서대로 이어 붙여야 해요. 그래서 XGBoost 같은 모델은 약한 학습기를 순차적으로 보완하며 성능을 끌어올려요.",
+    "type": "concept",
+    "question_length_chars": 28,
+    "answer_length_chars": 152
+  },
+  {
+    "id": "middle-15",
+    "level": "middle",
+    "question": "K-means에서 최적의 K값은 어떻게 정해?",
+    "answer": "K를 늘려가며 클러스터 내 거리 제곱합인 SSE를 계산하고, 그래프에서 감소폭이 급격히 줄어드는 팔꿈치 지점을 K로 고르는 엘보우 방법을 많이 써요.",
+    "type": "concept",
+    "question_length_chars": 25,
+    "answer_length_chars": 83
+  },
+  {
+    "id": "middle-16",
+    "level": "middle",
+    "question": "PCA는 차원을 줄이면서 어떻게 정보 손실을 최소화해?",
+    "answer": "PCA는 데이터의 분산이 가장 큰 방향을 주성분으로 잡아서, 그 방향으로 데이터를 투영했을 때 원래 데이터가 가진 정보를 최대한 보존하도록 축을 새로 구성해요. 분산이 작은 축은 버려도 정보 손실이 적기 때문에 차원을 줄여도 데이터 구조가 크게 왜곡되지 않아요.",
+    "type": "concept",
+    "question_length_chars": 30,
+    "answer_length_chars": 146
+  },
+  {
+    "id": "middle-17",
+    "level": "middle",
+    "question": "배치 정규화는 왜 학습을 안정적으로 만들어줘?",
+    "answer": "배치 정규화는 각 층에 들어가는 입력값의 평균과 분산을 배치 단위로 맞춰줘서, 층을 통과할 때마다 입력 분포가 요동치는 내부 공변량 변화를 줄여줘요. 그 덕분에 학습률을 더 크게 잡아도 발산하지 않고 더 빠르고 안정적으로 수렴할 수 있어요.",
+    "type": "concept",
+    "question_length_chars": 25,
+    "answer_length_chars": 134
+  },
+  {
+    "id": "middle-18",
+    "level": "middle",
+    "question": "아래 코드로 검증할 때마다 정확도가 들쭉날쭉해.\nmodel.train()\nwith torch.no_grad():\n    output = model(X_val)\n왜 이런 거야?",
+    "answer": "model.train() 상태로 두면 검증할 때도 드롭아웃이 계속 무작위로 뉴런을 꺼버려서 추론할 때마다 다른 결과가 나와요. 검증이나 평가 단계에서는 model.eval()을 호출해서 드롭아웃과 배치 정규화를 추론 모드로 바꿔줘야 항상 같은 예측이 나와요.",
+    "type": "code",
+    "question_length_chars": 97,
+    "answer_length_chars": 144
+  },
+  {
+    "id": "middle-19",
+    "level": "middle",
+    "question": "아래 코드를 돌렸더니 fold마다 정확도 점수가 0.7~0.95로 크게 달라져.\nscores = cross_val_score(model, X, y, cv=KFold(n_splits=5, shuffle=False))\n왜 이런 거야?",
+    "answer": "shuffle=False로 두면 데이터를 순서 그대로 5등분해서 특정 fold에 한쪽 클래스나 패턴이 몰릴 수 있어요. 데이터가 미리 정렬돼 있으면 fold마다 난이도가 달라져서 점수 편차가 커지니, shuffle=True와 random_state를 함께 지정해야 fold 간 분포가 고르게 섞여요.",
+    "type": "code",
+    "question_length_chars": 128,
+    "answer_length_chars": 167
+  },
+  {
+    "id": "middle-20",
+    "level": "middle",
+    "question": "아래 코드로 학습했더니 KNN 성능이 스케일링 전보다 훨씬 낮아.\nmodel = KNeighborsClassifier(n_neighbors=5)\nmodel.fit(X_train, y_train)\n왜 이런 거야?",
+    "answer": "KNN은 거리 기반으로 이웃을 찾는 알고리즘이라서, 특성마다 값의 범위가 다르면 값이 큰 특성이 거리 계산을 사실상 독점해버려요. StandardScaler 같은 전처리로 특성 스케일을 맞추지 않고 학습하면 범위가 작은 특성의 영향력이 거의 사라져서 성능이 떨어져요.",
+    "type": "code",
+    "question_length_chars": 117,
+    "answer_length_chars": 149
+  },
+  {
+    "id": "high-1",
+    "level": "high",
+    "question": "로짓과 확률의 관계를 수식으로 설명하면?",
+    "answer": "로짓 z를 softmax(z_i)=exp(z_i)/Σexp(z_j) 식에 넣으면 확률이 나와요. 지수함수 덕분에 로짓 순서는 유지되고 합이 1인 분포로 바뀌어요.",
+    "type": "concept",
+    "question_length_chars": 22,
+    "answer_length_chars": 90
+  },
+  {
+    "id": "high-2",
+    "level": "high",
+    "question": "greedy decoding과 beam search는 왜 다른 결과를 내?",
+    "answer": "greedy는 매 스텝 최고 확률 토큰 하나만 남기지만, beam search는 여러 후보 시퀀스를 동시에 유지하다가 전체 확률이 가장 높은 경로를 찾아요.",
+    "type": "concept",
+    "question_length_chars": 41,
+    "answer_length_chars": 87
+  },
+  {
+    "id": "high-3",
+    "level": "high",
+    "question": "temperature를 0에 가깝게 두면 수치적으로 왜 위험해?",
+    "answer": "로짓을 0에 가까운 값으로 나누면 분모가 무한대로 발산해서 오버플로가 나요. 그래서 실제로는 0.001처럼 아주 작은 양수로 대체해서 사실상 argmax와 같은 효과만 흉내내요.",
+    "type": "concept",
+    "question_length_chars": 35,
+    "answer_length_chars": 99
+  },
+  {
+    "id": "high-4",
+    "level": "high",
+    "question": "temperature가 매우 크면 분포가 왜 이상해져?",
+    "answer": "로짓 간 차이가 temperature로 나뉘며 거의 0에 수렴해서 모든 토큰의 확률이 균등분포에 가까워지기 때문이에요. 결국 문맥과 무관한 저확률 토큰까지 똑같이 뽑힐 확률을 갖게 돼요.",
+    "type": "concept",
+    "question_length_chars": 31,
+    "answer_length_chars": 98
+  },
+  {
+    "id": "high-5",
+    "level": "high",
+    "question": "컨텍스트 길이 제한은 어텐션 계산과 어떤 관계가 있어?",
+    "answer": "셀프 어텐션은 토큰 수의 제곱에 비례해 연산량과 메모리가 늘어나는 구조라서, 컨텍스트 길이를 무한정 늘릴 수 없고 모델마다 정해진 최대 토큰 수 안에서만 문맥을 처리해요.",
+    "type": "concept",
+    "question_length_chars": 30,
+    "answer_length_chars": 95
+  },
+  {
+    "id": "high-6",
+    "level": "high",
+    "question": "아래 두 코드를 비교했더니 use_cache=False일 때 생성 속도가 훨씬 느려.\noutput = model.generate(input_ids, max_new_tokens=200, use_cache=False)\n왜 이런 거야?",
+    "answer": "use_cache=False로 두면 매 스텝마다 이전에 생성한 토큰들의 key, value까지 처음부터 다시 계산해서, 생성한 토큰 수가 늘어날수록 계산량이 커져요. use_cache=True로 두면 이전 key, value를 캐시에 저장해두고 재사용해서 새 토큰 하나의 연산만 추가로 하면 되니까 훨씬 빨라져요.",
+    "type": "code",
+    "question_length_chars": 128,
+    "answer_length_chars": 175
+  },
+  {
+    "id": "high-7",
+    "level": "high",
+    "question": "파인튜닝, Instruct 튜닝, RLHF의 차이점 설명해줘.",
+    "answer": "파인튜닝은 도메인 데이터로 가중치를 추가 학습하는 거고, Instruct 튜닝은 지시-응답 쌍으로 지시 따르기를 가르치는 거예요. RLHF는 사람 선호도를 보상으로 강화학습해요.",
+    "type": "concept",
+    "question_length_chars": 32,
+    "answer_length_chars": 99
+  },
+  {
+    "id": "high-8",
+    "level": "high",
+    "question": "perplexity가 낮아도 품질이 나쁠 수 있는 이유가 뭐야?",
+    "answer": "perplexity는 다음 토큰 예측의 통계적 정확도만 재는 지표에요. 따라서, 문장이 문법적으로 그럴듯해도 사실관계가 틀리거나 다양성이 떨어지는 문제는 반영하지 못해요.",
+    "type": "concept",
+    "question_length_chars": 32,
+    "answer_length_chars": 90
+  },
+  {
+    "id": "high-9",
+    "level": "high",
+    "question": "아래 코드로 매번 seed를 고정했는데도 출력이 달라져.\ntorch.manual_seed(42)\noutput = pipe(messages, do_sample=True, temperature=0.8)\n왜 이런 거야?",
+    "answer": "torch.manual_seed는 CPU 연산의 난수만 고정하고, GPU에서 도는 cuDNN 커널의 병렬 연산 순서까지는 고정하지 못해요. GPU 비결정성까지 없애려면 결정적 알고리즘 설정과 cuDNN 벤치마크 비활성화까지 함께 지정해야 해요.",
+    "type": "code",
+    "question_length_chars": 119,
+    "answer_length_chars": 136
+  },
+  {
+    "id": "high-10",
+    "level": "high",
+    "question": "temperature, top-k, top-p를 함께 쓰면 순서가 중요해?",
+    "answer": "네 중요해요. temperature가 먼저 분포 모양을 조정한 뒤 top_k와 top_p가 그 위에서 후보를 골라내는 순서로 적용되기 때문이에요. 순서를 바꾸면 최종 후보 집합이 달라져요.",
+    "type": "concept",
+    "question_length_chars": 43,
+    "answer_length_chars": 92
+  },
+  {
+    "id": "high-11",
+    "level": "high",
+    "question": "softmax에 지수함수를 쓰는 수학적 이유는 뭐야?",
+    "answer": "지수함수는 항상 양수를 출력하고 입력값의 차이를 비선형적으로 크게 벌려주는 성질이 있어요. 그래서 로짓 사이의 상대적 크기 순서는 그대로 보존하면서도, 큰 로짓을 가진 토큰에는 더 뚜렷하게 높은 확률을 몰아주는 자연스러운 확률분포를 계산해낼 수 있는 거예요.",
+    "type": "concept",
+    "question_length_chars": 29,
+    "answer_length_chars": 144
+  },
+  {
+    "id": "high-12",
+    "level": "high",
+    "question": "아래 코드로 생성했더니 확률이 한 단어에 몰려있는 상황에서도 이상한 단어가 섞여 나와.\noutput = pipe(messages, do_sample=True, top_k=50, temperature=1.0)\n",
+    "answer": "top_k=50은 확률 분포 모양과 상관없이 항상 상위 50개 토큰을 후보로 고정한다는 뜻이에요. 특정 단어 하나의 확률이 90%를 넘는 상황에서도 나머지 49개 저확률 토큰이 억지로 후보에 남아 있다가 가끔 뽑히기 때문에, 문맥과 안 맞는 단어가 섞여 나올 수 있어요.",
+    "type": "code",
+    "question_length_chars": 124,
+    "answer_length_chars": 145
+  },
+  {
+    "id": "high-13",
+    "level": "high",
+    "question": "같은 프롬프트에 top_k=50과 top_p=0.9를 각각 적용했는데 top_p 쪽 결과가 더 자연스러워.\noutput = pipe(messages, do_sample=True, top_p=0.9)\n왜 이런 거야?",
+    "answer": "top_p는 누적 확률이 0.9를 넘을 때까지만 후보를 남기기 때문에, 확률이 한 단어에 몰린 상황에서는 후보가 한두 개로 줄고 분포가 평평한 상황에서는 후보가 자연스럽게 늘어나요. top_k=50처럼 개수를 고정하지 않아서 문맥의 확신도에 맞게 후보 크기가 유동적으로 조절돼요.",
+    "type": "code",
+    "question_length_chars": 119,
+    "answer_length_chars": 156
+  },
+  {
+    "id": "high-14",
+    "level": "high",
+    "question": "아래 두 코드로 같은 확률분포를 넣었는데 결과가 달라.\ntoken_a = torch.argmax(probs)\ntoken_b = torch.multinomial(probs, num_samples=1)\n왜 이런 거야?",
+    "answer": "argmax는 확률이 가장 높은 토큰 하나를 결정론적으로 고정해서 뽑는 방식이라 항상 같은 결과가 나와요. multinomial은 확률분포 전체를 가중치로 삼아 무작위로 하나를 뽑는 방식이라, 확률이 낮아도 뽑힐 가능성이 남아 있어서 실행할 때마다 다른 토큰이 선택될 수 있어요.",
+    "type": "code",
+    "question_length_chars": 119,
+    "answer_length_chars": 156
+  },
+  {
+    "id": "high-15",
+    "level": "high",
+    "question": "실무에서 디코딩 전략을 고를 때의 기준은 어떻게 돼?",
+    "answer": "코드 생성이나 수치 계산처럼 정답이 명확한 작업엔 greedy나 낮은 temperature로 일관성을 우선하고, 마케팅 카피나 창작처럼 다양성이 중요한 작업엔 temperature와 top_p를 높여 폭넓은 후보를 뽑아내는 식으로, 작업의 정답 민감도에 따라 전략을 다르게 고릅니다.",
+    "type": "concept",
+    "question_length_chars": 25,
+    "answer_length_chars": 158
+  },
+  {
+    "id": "high-16",
+    "level": "high",
+    "question": "디코딩 파라미터의 적용 순서는 결과에 어떤 영향을 줘?",
+    "answer": "일반적으로 temperature로 원래 로짓 분포를 먼저 재조정한 뒤, top_k로 후보 개수를 제한하고, 그 위에서 다시 top_p로 누적 확률 기준까지 적용하는 순서를 거쳐요. 이 순서를 바꾸면 각 단계에서 남는 후보 집합이 달라지기 때문에 최종적으로 샘플링되는 토큰의 확률 분포 자체가 변해요.",
+    "type": "concept",
+    "question_length_chars": 30,
+    "answer_length_chars": 167
+  },
+  {
+    "id": "high-17",
+    "level": "high",
+    "question": "확률 분포의 엔트로피와 생성 문장의 다양성은 어떤 관계야?",
+    "answer": "엔트로피는 확률분포가 얼마나 골고루 퍼져 있는지를 재는 지표라서, 엔트로피가 낮으면 특정 토큰에 확률이 몰려 있어 예측 가능한 문장이 나오고, 엔트로피가 높으면 여러 토큰에 확률이 고르게 퍼져 있어 더 다양하고 의외성 있는 문장이 나올 가능성이 커져요.",
+    "type": "concept",
+    "question_length_chars": 32,
+    "answer_length_chars": 141
+  },
+  {
+    "id": "high-18",
+    "level": "high",
+    "question": "few-shot 프롬프팅이 모델 성능하고 무슨 관계지?",
+    "answer": "모델은 별도의 가중치 업데이트 없이도 프롬프트에 제시된 예시들의 입력-출력 패턴을 문맥 안에서 인식하고 그대로 모방하려는 성질이 있어요. 그래서 문제와 유사한 예시 몇 개를 미리 보여주면, 모델이 원하는 형식과 난이도에 맞춰 답변을 생성할 확률이 눈에 띄게 높아져요.",
+    "type": "concept",
+    "question_length_chars": 32,
+    "answer_length_chars": 149
+  },
+  {
+    "id": "high-19",
+    "level": "high",
+    "question": "작업 종류에 따라 temperature를 다르게 잡는 이유를 설명해줘.",
+    "answer": "정답이 하나로 수렴해야 하는 작업은 분포를 뾰족하게 유지해야 일관된 답이 나오므로 0.2에서 0.5 정도의 낮은 temperature가 적합하고, 창작처럼 여러 그럴듯한 답이 공존해도 되는 작업은 0.7에서 1.0 정도로 분포를 넓혀야 다채로운 결과를 얻을 수 있어요.",
+    "type": "concept",
+    "question_length_chars": 37,
+    "answer_length_chars": 150
+  },
+  {
+    "id": "high-20",
+    "level": "high",
+    "question": "scipy의 softmax 구현이 수치적으로 안정적이게 나오는 이유가 뭐야?",
+    "answer": "로짓을 그대로 지수함수에 넣으면 값이 커질수록 오버플로가 발생할 수 있는데, scipy 구현은 계산 전에 로짓 배열에서 최댓값을 빼는 트릭을 써요. 이렇게 하면 지수함수 결과값이 항상 1 이하로 유지되면서도 최종 softmax 확률값 자체는 수학적으로 완전히 동일하게 나와요.",
+    "type": "code",
+    "question_length_chars": 34,
+    "answer_length_chars": 154
+  }
+]
